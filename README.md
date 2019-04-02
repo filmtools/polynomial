@@ -1,4 +1,22 @@
 # FilmTools · Polynomial
 
-**These files may go into their own package one fine day.**
+
+
+## Installation 
+
+```php
+$ composer require filmtools/polynomial
+```
+
+## Interfaces
+
+- CoefficientsProviderInterface
+- InterpolatorInterface
+- PolynomialModelException
+- PolynomialModelExceptionInterface
+- PolynomialModelInterface
+- PolynomialModelProviderInterface
+- XFinderInterface
+- XNotFoundException
+- YNotFoundException
 
