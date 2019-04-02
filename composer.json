@@ -13,7 +13,7 @@
 
   "autoload": {
     "psr-4": {
-      "FilmTools\\Polynomial\\": "src/"
+      "FilmTools\\PolynomialModel\\": "src/"
     }
   },
 
