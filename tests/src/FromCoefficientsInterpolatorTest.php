@@ -6,26 +6,48 @@ use FilmTools\PolynomialModel\CoefficientsProviderInterface;
 
 class FromCoefficientsInterpolatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testSimple()
+
+    /**
+     * @dataProvider provideCoefficients
+     */
+    public function testValuesInCtor($coefficients, $values, $expected_result)
     {
+        $sut = new FromCoefficientsInterpolator($values);
+
+        $results = $sut( $coefficients );
+        $this->assertInternalType("array", $results);
+        $this->assertEquals($results, $expected_result);
+    }
+
+
+    /**
+     * @dataProvider provideCoefficients
+     */
+    public function testValuesOnInvokation($coefficients, $values, $expected_result)
+    {
+        $sut = new FromCoefficientsInterpolator;
+
+        $results = $sut( $coefficients, $values );
+        $this->assertInternalType("array", $results);
+        $this->assertEquals($results, $expected_result);
+    }
+
+
+    public function provideCoefficients()
+    {
+        $values = array(1,2,3);
         $coefficients = array(2, 3);
+        $results = [ 5, 8, 11 ];
 
         $cp = $this->prophesize( CoefficientsProviderInterface::class );
         $cp->getCoefficients()->willReturn( $coefficients );
         $cp_stub = $cp->reveal();
 
-        $values = array(1,2,3);
-        $sut = new FromCoefficientsInterpolator($values);
-
-        $results = $sut( $cp_stub );
-        $this->assertInternalType("array", $results);
-        $this->assertEquals($results, [ 5, 8, 11 ]);
-
-        $values = array(2,3,4);
-        $result2 = $sut( $cp_stub, $values );
-        $this->assertInternalType("array", $result2);
-        $this->assertEquals($result2, [ 8, 11, 14 ]);
-
+        return array(
+            [ $coefficients, $values, $results],
+            [ $cp_stub, $values, $results],
+        );
     }
+
 
 }

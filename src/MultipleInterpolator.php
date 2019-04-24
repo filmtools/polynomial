@@ -3,34 +3,35 @@ namespace FilmTools\PolynomialModel;
 
 use DrQue\PolynomialRegression;
 
-class FromCoefficientsInterpolator
+class MultipleInterpolator implements CoefficientsProviderInterface
 {
+    use CoefficientsProviderTrait;
+
 
     /**
-     * @var array
+     * @param  array|CoefficientsProviderInterface $coefficients
      */
-    public $x_values;
+    public function __construct( $coefficients )
+    {
+        $this->coefficients = $this->assertCoefficients( $coefficients );
+    }
+
+    /**
+     * @param array|Traversable $x_values Default x values
+     */
+    public function __invoke( $x_values )
+    {
+        return $this->interpolate( $x_values );
+    }
 
 
     /**
      * @param array|Traversable $x_values Default x values
      */
-    public function __construct( $x_values = array())
+    public function interpolate( $x_values ) : array
     {
-        $this->x_values = $this->assertArrayValues( $x_values );
-    }
-
-
-    /**
-     * @param  array|CoefficientsProviderInterface $coefficients
-     * @param  array|Traversable $x_values Default x values
-     * @return array Interpolated values
-     */
-    public function __invoke( $coefficients, $x_values = null )
-    {
-
-        $coefficients = $this->assertCoefficients( $coefficients );
         $x_values = $this->assertArrayValues( $x_values );
+        $coefficients = $this->getCoefficients();
 
         return array_map(function($x) use ($coefficients) {
             return PolynomialRegression::interpolate( $coefficients, $x);
@@ -47,6 +48,7 @@ class FromCoefficientsInterpolator
 
         return $coefficients;
     }
+
 
     /**
      * @param  mixed $x_values
@@ -67,5 +69,4 @@ class FromCoefficientsInterpolator
         throw new \InvalidArgumentException("Array, Traversable, or NULL expected");
 
     }
-
 }
