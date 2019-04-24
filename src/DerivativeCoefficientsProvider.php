@@ -23,7 +23,10 @@ class DerivativeCoefficientsProvider implements CoefficientsProviderInterface
         if (array_key_exists(0, $coefficients))
             unset($coefficients[0]);
 
-        $new_coefficients = array();
+        if (count($coefficients) === 0)
+            return array();
+
+        $new_coefficients = array(0);
         foreach($coefficients as $exponent => $factor)
             $new_coefficients[ $exponent - 1 ] = $exponent * $factor;
 

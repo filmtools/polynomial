@@ -4,6 +4,7 @@ namespace tests;
 use FilmTools\PolynomialModel\DerivativeCoefficientsProvider;
 use FilmTools\PolynomialModel\PolynomialModelInterface;
 use FilmTools\PolynomialModel\CoefficientsProviderInterface;
+use FilmTools\PolynomialModel\MultipleInterpolator;
 
 
 class DerivativeCoefficientsProviderTest extends \PHPUnit\Framework\TestCase
@@ -28,7 +29,7 @@ class DerivativeCoefficientsProviderTest extends \PHPUnit\Framework\TestCase
         return array(
             [ array(0 => 16, 1=>30, 2=>5, 3=> 18 ), array( 0 => 30, 1 => 10, 2 => 54) ],
             [ array(), array() ],
-            [ array(0 => 16, 2=>5, 3=> 18 ), array( 1 => 10, 2 => 54) ]
+            [ array(0 => 16, 2=>5, 3=> 18 ), array( 0 => 0, 1 => 10, 2 => 54) ]
         );
     }
 
