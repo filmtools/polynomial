@@ -17,23 +17,20 @@ class FromCoefficientsInterpolator
      */
     public function __construct( $x_values = array())
     {
-        $this->x_values = $this->createArrayValues( $x_values );
+        $this->x_values = $this->assertArrayValues( $x_values );
     }
 
 
     /**
-     * @param  CoefficientsProviderInterface $coefficients_provider
+     * @param  array|CoefficientsProviderInterface $coefficients
      * @param  array|Traversable $x_values Default x values
-     * @return array                                                Interpolated values
+     * @return array Interpolated values
      */
-    public function __invoke( CoefficientsProviderInterface $coefficients_provider, $x_values = null )
+    public function __invoke( $coefficients, $x_values = null )
     {
-        if (!is_null($x_values))
-            $x_values = $this->createArrayValues( $x_values );
-        else
-            $x_values = $this->x_values;
 
-        $coefficients = $coefficients_provider->getCoefficients();
+        $coefficients = $this->assertCoefficients( $coefficients );
+        $x_values = $this->assertArrayValues( $x_values );
 
         return array_map(function($x) use ($coefficients) {
             return PolynomialRegression::interpolate( $coefficients, $x);
@@ -41,12 +38,22 @@ class FromCoefficientsInterpolator
     }
 
 
+    protected function assertCoefficients( $coefficients ) : array
+    {
+        if ($coefficients instanceOf CoefficientsProviderInterface)
+            $coefficients = $coefficients->getCoefficients();
+        elseif (!is_array($coefficients))
+            throw new \InvalidArgumentException("Array or CoefficientsProviderInterface expected");
+
+        return $coefficients;
+    }
+
     /**
-     * @param  mixed $x_values Array or Traversable
+     * @param  mixed $x_values
      * @return array
      * @throws InvalidArgumentException
      */
-    protected function createArrayValues( $x_values )
+    protected function assertArrayValues( $x_values ) : array
     {
         if (is_array($x_values))
             return $x_values;
@@ -54,7 +61,10 @@ class FromCoefficientsInterpolator
         if ($x_values instanceOf \Traversable)
             return iterator_to_array($x_values);
 
-        throw new \InvalidArgumentException("Array or Traversable expected");
+        if (is_null($x_values))
+            return $this->x_values;
+
+        throw new \InvalidArgumentException("Array, Traversable, or NULL expected");
 
     }
 
