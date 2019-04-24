@@ -4,8 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "04baa5d0e01457af0c5b33d442d8f5d1",
-    "packages": [],
+    "content-hash": "25c95c230ea9a35c20b6322854841d87",
+    "packages": [
+        {
+            "name": "dr-que/polynomial-regression",
+            "version": "v1.2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jbboehr/PolynomialRegression.php.git",
+                "reference": "b2db8c03221428b7cfab94231fc09348fb9392eb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jbboehr/PolynomialRegression.php/zipball/b2db8c03221428b7cfab94231fc09348fb9392eb",
+                "reference": "b2db8c03221428b7cfab94231fc09348fb9392eb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DrQue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Que",
+                    "homepage": "http://www.DrQue.net/"
+                }
+            ],
+            "description": "Calculates and returns coefficients for polynomial regression.",
+            "homepage": "http://www.drque.net/Projects/PolynomialRegression/",
+            "keywords": [
+                "math",
+                "polynomial",
+                "polynomial regression",
+                "regression"
+            ],
+            "time": "2016-11-04T17:50:00+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "clue/stdio-react",
