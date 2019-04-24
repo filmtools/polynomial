@@ -18,7 +18,8 @@
   },
 
   "require": {
-    "php": "^7.1"
+    "php": "^7.1",
+    "dr-que/polynomial-regression": "v1.2.1.1"
   },
 
 	"autoload-dev": {
