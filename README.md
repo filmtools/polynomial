@@ -20,3 +20,6 @@ $ composer require filmtools/polynomial
 - XNotFoundException
 - YNotFoundException
 
+## Classes
+
+- FromCoefficientsInterpolator
