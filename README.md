@@ -132,6 +132,53 @@ $interpolated = $mi( $x_values );
 
 
 
+### DerivativeCoefficientsProvider
+
+Calculates the coefficients for a derivative polynomial on a given a set of coefficients (either array or Provider).
+
+```php
+<?php
+use FilmTools\PolynomialModel\DerivativeCoefficientsProvider;
+use FilmTools\PolynomialModel\CoefficientsProviderInterface;
+
+class MyModel implements CoefficientsProviderInterface
+{
+  public function getCoefficients(): array
+  {
+    // Keys are exponents, values are factors!
+    return array(0=>16, 1=>30, 2=>5, 3=> 18 );
+  }
+}
+$my_provider = new MyModel;
+
+$derivation_provider = new DerivativeCoefficientsProvider( $my_provider );
+$coefficients = $derivation_provider->getCoefficients();
+// array( 0 => 30, 1 => 10, 2 => 54)
+```
+
+The class itself implements **CoefficientsProviderInterface**, and thus works excellent in conjunction with **MultipleInterpolator:**
+
+```php
+use FilmTools\PolynomialModel\DerivativeCoefficientsProvider;
+use FilmTools\PolynomialModel\MultipleInterpolator;
+
+$my_provider = new MyModel;
+// coefficients = array(0=>16, 1=>30, 2=>5, 3=> 18 );
+
+$derivated_coefficients = new DerivativeCoefficientsProvider( $my_provider );
+$mi = new MultipleInterpolator( $derivated_coefficients );
+
+$x_values = array(1,2,3);
+$slopes = $mi->interpolate( $x_values );
+// 94, 266, 546
+```
+
+
+
+
+
+
+
 
 
 ### Exceptions
