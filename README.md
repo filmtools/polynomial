@@ -144,4 +144,3 @@ Both **XNotFoundException** and **YNotFoundException** extend from *PolynomialMo
 
 
 
-- FromCoefficientsInterpolator
