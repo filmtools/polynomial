@@ -1,5 +1,7 @@
 # FilmTools · Polynomial
 
+**Tools for working with simple polynomial models.**
+
 
 
 ## Installation 
@@ -38,11 +40,28 @@ returns a polynomial model interface instance.
     public function getPolynomialModel(): PolynomialModelInterface;
 
 
-### Classes
+Interpolates an array of X values using the same coefficients.
 
-#### FromCoefficientsInterpolator
+```php
+<?php
+use FilmTools\PolynomialModel\MultipleInterpolator;
 
-Usage with **default X values:**
+$coefficients = array(2,3);
+$mi = new MultipleInterpolator( $coefficients );
+
+$x_values = array(1,2,3);
+$interpolated = $mi->interpolate( $x_values );
+$interpolated = $mi( $x_values );
+// Array [ 5, 8, 11 ]
+```
+
+
+
+
+
+### FromCoefficientsInterpolator
+
+This callable class interpolates a **default set of X values** using the **coefficients** given on invokation:
 
 ```php
 <?php
@@ -60,7 +79,7 @@ $interpolated = $fci( [
 
 ```
 
-Pass **custom X values** on invokation:
+You may also pass **custom X values** on invokation:
 
 ```php
 $fci = new FromCoefficientsInterpolator;
@@ -90,6 +109,25 @@ class MyModel implements CoefficientsProviderInterface
 $x_values = array(1,2,3);
 $fci = new FromCoefficientsInterpolator( $x_values );
 $interpolated = $fci( new MyModel ); // Array [ 5, 8, 11 ]
+```
+
+
+
+### MultipleInterpolator
+
+Interpolates **arrays of X values** using the same default **coefficients.** The Constructor accepts a number array as well as **CoefficientsProviderInterface**:
+
+```php
+<?php
+use FilmTools\PolynomialModel\MultipleInterpolator;
+
+$coefficients = array(2,3);
+$mi = new MultipleInterpolator( $coefficients );
+
+$x_values = array(1,2,3);
+$interpolated = $mi->interpolate( $x_values );
+$interpolated = $mi( $x_values );
+// Array [ 5, 8, 11 ]
 ```
 
 
