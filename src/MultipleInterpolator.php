@@ -28,7 +28,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
     /**
      * @param iterable $x_values Default x values
      */
-    public function interpolate( iterable $x_values ) : array
+    public function interpolate( iterable $x_values ) : iterable
     {
         $coefficients = $this->getCoefficients();
 
