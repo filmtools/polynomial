@@ -27,14 +27,17 @@ class MultipleInterpolator implements CoefficientsProviderInterface
 
     /**
      * @param iterable $x_values Default x values
+     * @return SplFixedArray
      */
     public function interpolate( iterable $x_values ) : iterable
     {
         $coefficients = $this->getCoefficients();
 
-        return iterable_map($x_values, function($x) use ($coefficients) {
+        $results = iterable_map($x_values, function($x) use ($coefficients) {
             return PolynomialRegression::interpolate( $coefficients, $x);
         });
+
+        return \SplFixedArray::fromArray(iterable_to_array( $results ));
     }
 
 

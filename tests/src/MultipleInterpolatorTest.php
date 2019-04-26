@@ -15,7 +15,7 @@ class MultipleInterpolatorTest extends \PHPUnit\Framework\TestCase
         $sut = new MultipleInterpolator($coefficients);
 
         $result = $sut->interpolate( $values );
-        $this->assertInternalType("array", $result);
+        $this->assertINstanceOf(\SplFixedArray::class, $result);
         $this->assertEquals($result, $expected_result);
     }
 
@@ -28,7 +28,7 @@ class MultipleInterpolatorTest extends \PHPUnit\Framework\TestCase
         $sut = new MultipleInterpolator($coefficients);
 
         $result = $sut( $values );
-        $this->assertInternalType("array", $result);
+        $this->assertINstanceOf(\SplFixedArray::class, $result);
         $this->assertEquals($result, $expected_result);
     }
 
@@ -37,7 +37,7 @@ class MultipleInterpolatorTest extends \PHPUnit\Framework\TestCase
     {
         $values = array(1,2,3);
         $coefficients = array(2, 3);
-        $results = [ 5, 8, 11 ];
+        $results = \SplFixedArray::fromArray([ 5, 8, 11 ]);
 
         $cp = $this->prophesize( CoefficientsProviderInterface::class );
         $cp->getCoefficients()->willReturn( $coefficients );
