@@ -5,7 +5,8 @@ use DrQue\PolynomialRegression;
 
 class MultipleInterpolator implements CoefficientsProviderInterface
 {
-    use CoefficientsProviderTrait;
+    use CoefficientsProviderTrait,
+        CoefficientsAssertionTrait;
 
 
     /**
@@ -40,19 +41,5 @@ class MultipleInterpolator implements CoefficientsProviderInterface
         return \SplFixedArray::fromArray(iterable_to_array( $results ));
     }
 
-
-    protected function assertCoefficients( $coefficients ) : iterable
-    {
-        if ($coefficients instanceOf CoefficientsProviderInterface)
-            return $coefficients->getCoefficients();
-
-        elseif ($coefficients instanceOf \SplFixedArray )
-            return $coefficients;
-
-        elseif (is_iterable($coefficients))
-            return \SplFixedArray::fromArray( iterable_to_array($coefficients));
-
-        throw new \InvalidArgumentException("Iterable or CoefficientsProviderInterface expected");
-    }
 
 }
