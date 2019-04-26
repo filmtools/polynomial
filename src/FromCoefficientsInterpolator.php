@@ -5,9 +5,10 @@ use DrQue\PolynomialRegression;
 
 class FromCoefficientsInterpolator
 {
+    use CoefficientsAssertionTrait;
 
     /**
-     * @var iterable
+     * @var \SplFixedArray
      */
     public $x_values;
 
@@ -24,12 +25,13 @@ class FromCoefficientsInterpolator
     /**
      * @param  iterable|CoefficientsProviderInterface $coefficients
      * @param  iterable                               $x_values Default x values
-     * @return array Interpolated values
+     * @return \SplFixedArray                         Interpolated values
      */
-    public function __invoke( $coefficients, iterable $x_values = null ) : iterable
+    public function __invoke( $coefficients, iterable $x_values = null ) : \SplFixedArray
     {
         $coefficients = $this->assertCoefficients( $coefficients );
 
+        // Use custom or default Xs
         $x_values = is_null($x_values)
         ? $this->x_values
         : \SplFixedArray::fromArray(iterable_to_array( $x_values ));
@@ -37,19 +39,7 @@ class FromCoefficientsInterpolator
         $results = array();
         foreach($x_values as $x)
             $results[] = PolynomialRegression::interpolate( $coefficients, $x);
-        return $results;
-    }
-
-
-    protected function assertCoefficients( $coefficients ) : iterable
-    {
-        if ($coefficients instanceOf CoefficientsProviderInterface)
-            return $coefficients->getCoefficients();
-
-        elseif (is_iterable($coefficients))
-            return \SplFixedArray::fromArray( iterable_to_array($coefficients));
-
-        throw new \InvalidArgumentException("Iterable or CoefficientsProviderInterface expected");
+        return \SplFixedArray::fromArray($results);
     }
 
 

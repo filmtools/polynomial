@@ -5,7 +5,8 @@ use DrQue\PolynomialRegression;
 
 class MultipleInterpolator implements CoefficientsProviderInterface
 {
-    use CoefficientsProviderTrait;
+    use CoefficientsProviderTrait,
+        CoefficientsAssertionTrait;
 
 
     /**
@@ -15,6 +16,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
     {
         $this->coefficients = $this->assertCoefficients( $coefficients );
     }
+
 
     /**
      * @param iterable $x_values Default x values
@@ -27,26 +29,18 @@ class MultipleInterpolator implements CoefficientsProviderInterface
 
     /**
      * @param iterable $x_values Default x values
+     * @return SplFixedArray
      */
-    public function interpolate( iterable $x_values ) : iterable
+    public function interpolate( iterable $x_values ) : \SplFixedArray
     {
         $coefficients = $this->getCoefficients();
 
-        return iterable_map($x_values, function($x) use ($coefficients) {
+        $results = iterable_map($x_values, function($x) use ($coefficients) {
             return PolynomialRegression::interpolate( $coefficients, $x);
         });
+
+        return \SplFixedArray::fromArray(iterable_to_array( $results ));
     }
 
-
-    protected function assertCoefficients( $coefficients ) : iterable
-    {
-        if ($coefficients instanceOf CoefficientsProviderInterface)
-            return $coefficients->getCoefficients();
-
-        elseif (is_iterable($coefficients))
-            return \SplFixedArray::fromArray( iterable_to_array($coefficients));
-
-        throw new \InvalidArgumentException("Iterable or CoefficientsProviderInterface expected");
-    }
 
 }

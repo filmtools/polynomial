@@ -5,18 +5,21 @@ trait CoefficientsProviderTrait
 {
 
     /**
-     * The polynomial coefficients
-     * @var iterable
+     * The polynomial coefficients.
+     *
+     * @var \SplFixedArray
      */
-    public $coefficients = array();
+    protected $coefficients;
 
 
     /**
-     * Returns the polynomial coefficients
+     * Returns the polynomial coefficients.
      * @return array
      */
-    public function getCoefficients(): iterable
+    public function getCoefficients(): \SplFixedArray
     {
-        return $this->coefficients;
+        return $this->coefficients instanceOf \SplFixedArray
+        ? $this->coefficients
+        : new \SplFixedArray( 0 );
     }
 }
