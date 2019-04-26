@@ -177,7 +177,7 @@ $slopes = $interpolator->interpolate( $x_values );
 
 The **PolynomialModelException** extends *\Exception* and implements **PolynomialModelExceptionInterface**. 
 
-Both **XNotFoundException** and **YNotFoundException** extend from *PolynomialModelException.* All these have *PolynomialModelExceptionInterface* in common.
+The **NotEnoughPointsException** as well as **XNotFoundException** and **YNotFoundException** extend from *PolynomialModelException.* All these have *PolynomialModelExceptionInterface* in common. Use these whenever something fails.
 
 ## 
 
