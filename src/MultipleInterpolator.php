@@ -29,7 +29,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
      * @param iterable $x_values Default x values
      * @return SplFixedArray
      */
-    public function interpolate( iterable $x_values ) : iterable
+    public function interpolate( iterable $x_values ) : \SplFixedArray
     {
         $coefficients = $this->getCoefficients();
 
