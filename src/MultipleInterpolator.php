@@ -9,7 +9,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
 
 
     /**
-     * @param  array|CoefficientsProviderInterface $coefficients
+     * @param  iterable|CoefficientsProviderInterface $coefficients
      */
     public function __construct( $coefficients )
     {
@@ -17,56 +17,36 @@ class MultipleInterpolator implements CoefficientsProviderInterface
     }
 
     /**
-     * @param array|Traversable $x_values Default x values
+     * @param iterable $x_values Default x values
      */
-    public function __invoke( $x_values )
+    public function __invoke( iterable $x_values )
     {
         return $this->interpolate( $x_values );
     }
 
 
     /**
-     * @param array|Traversable $x_values Default x values
+     * @param iterable $x_values Default x values
      */
-    public function interpolate( $x_values ) : array
+    public function interpolate( iterable $x_values ) : array
     {
-        $x_values = $this->assertArrayValues( $x_values );
         $coefficients = $this->getCoefficients();
 
-        return array_map(function($x) use ($coefficients) {
+        return iterable_map($x_values, function($x) use ($coefficients) {
             return PolynomialRegression::interpolate( $coefficients, $x);
-        }, $x_values);
+        });
     }
 
 
-    protected function assertCoefficients( $coefficients ) : array
+    protected function assertCoefficients( $coefficients ) : iterable
     {
         if ($coefficients instanceOf CoefficientsProviderInterface)
-            $coefficients = $coefficients->getCoefficients();
-        elseif (!is_array($coefficients))
-            throw new \InvalidArgumentException("Array or CoefficientsProviderInterface expected");
+            return $coefficients->getCoefficients();
 
-        return $coefficients;
+        elseif (is_iterable($coefficients))
+            return \SplFixedArray::fromArray( iterable_to_array($coefficients));
+
+        throw new \InvalidArgumentException("Iterable or CoefficientsProviderInterface expected");
     }
 
-
-    /**
-     * @param  mixed $x_values
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    protected function assertArrayValues( $x_values ) : array
-    {
-        if (is_array($x_values))
-            return $x_values;
-
-        if ($x_values instanceOf \Traversable)
-            return iterator_to_array($x_values);
-
-        if (is_null($x_values))
-            return $this->x_values;
-
-        throw new \InvalidArgumentException("Array, Traversable, or NULL expected");
-
-    }
 }

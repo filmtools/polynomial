@@ -19,7 +19,7 @@ $ composer require filmtools/polynomial
 **CoefficientsProviderInterface:** 
 Returns the coefficients of the polynomial model.
 
-    public function getCoefficients(): array;
+    public function getCoefficients(): iterable;
 **InterpolatorInterface:** 
 Find an y value for a given x coordinate.
 
