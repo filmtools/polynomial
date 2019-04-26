@@ -40,24 +40,6 @@ returns a polynomial model interface instance.
     public function getPolynomialModel(): PolynomialModelInterface;
 
 
-Interpolates an array of X values using the same coefficients.
-
-```php
-<?php
-use FilmTools\PolynomialModel\MultipleInterpolator;
-
-$coefficients = array(2,3);
-$mi = new MultipleInterpolator( $coefficients );
-
-$x_values = array(1,2,3);
-$interpolated = $mi->interpolate( $x_values );
-$interpolated = $mi( $x_values );
-// Array [ 5, 8, 11 ]
-```
-
-
-
-
 
 ### FromCoefficientsInterpolator
 
@@ -115,7 +97,7 @@ $interpolated = $fci( new MyModel ); // Array [ 5, 8, 11 ]
 
 ### MultipleInterpolator
 
-Interpolates **arrays of X values** using the same default **coefficients.** The Constructor accepts a number array as well as **CoefficientsProviderInterface**:
+Interpolates **iterables of X values** using the same default **coefficients.** The interpolation method returns a **SplFixedArray**. The Constructor accepts a numbers *iterable* as well as **CoefficientsProviderInterface**:
 
 ```php
 <?php
@@ -124,10 +106,10 @@ use FilmTools\PolynomialModel\MultipleInterpolator;
 $coefficients = array(2,3);
 $mi = new MultipleInterpolator( $coefficients );
 
-$x_values = array(1,2,3);
-$interpolated = $mi->interpolate( $x_values );
+$x_iterable = array(1,2,3);
+$interpolated = $mi->interpolate( $x_iterable );
 $interpolated = $mi( $x_values );
-// Array [ 5, 8, 11 ]
+// SplFixedArray [ 5, 8, 11 ]
 ```
 
 
