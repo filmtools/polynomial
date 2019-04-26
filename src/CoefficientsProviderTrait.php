@@ -6,7 +6,7 @@ trait CoefficientsProviderTrait
 
     /**
      * The polynomial coefficients
-     * @var array
+     * @var iterable
      */
     public $coefficients = array();
 
@@ -15,7 +15,7 @@ trait CoefficientsProviderTrait
      * Returns the polynomial coefficients
      * @return array
      */
-    public function getCoefficients(): array
+    public function getCoefficients(): iterable
     {
         return $this->coefficients;
     }

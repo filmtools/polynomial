@@ -7,8 +7,8 @@ interface CoefficientsProviderInterface
     /**
      * Returns the coefficients of the polynomial model.
      *
-     * @return array
+     * @return iterable
      */
-    public function getCoefficients(): array;
+    public function getCoefficients(): iterable;
 
 }
