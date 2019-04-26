@@ -12,6 +12,14 @@ $ composer require filmtools/polynomial
 
 
 
+## Upgrading from v1
+
+From v2 on, this package now uses *SplFixedArrays* wherever possible. This will likely affect all your *CoefficientProviderInterface* implementations, as they now are required to return *\SplFixedArray*. 
+
+Wherever you calculate with *FromCoefficientsInterpolator* or *MultipleInterpolator*, you get *\SplFixedArray* results. When you rely on array results, just call `$result->toArray()` as defined in [SplFixedArray](https://www.php.net/manual/de/class.splfixedarray.php) methods API.
+
+
+
 ## What's in the package
 
 ### Interfaces
