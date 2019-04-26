@@ -15,7 +15,7 @@ class FromCoefficientsInterpolatorTest extends \PHPUnit\Framework\TestCase
         $sut = new FromCoefficientsInterpolator($values);
 
         $results = $sut( $coefficients );
-        $this->assertInstanceOf( \SplFixedArray::Class, $results ));
+        $this->assertInstanceOf( \SplFixedArray::Class, $results );
         $this->assertEquals($results, $expected_result);
     }
 
@@ -29,7 +29,7 @@ class FromCoefficientsInterpolatorTest extends \PHPUnit\Framework\TestCase
 
         $results = $sut( $coefficients, $values );
         $this->assertTrue( is_iterable( $results ));
-        $this->assertInstanceOf( \SplFixedArray::Class, $results ));
+        $this->assertInstanceOf( \SplFixedArray::Class, $results );
         $this->assertEquals($results, $expected_result);
     }
 

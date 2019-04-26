@@ -31,6 +31,7 @@ class FromCoefficientsInterpolator
     {
         $coefficients = $this->assertCoefficients( $coefficients );
 
+        // Use custom or default Xs
         $x_values = is_null($x_values)
         ? $this->x_values
         : \SplFixedArray::fromArray(iterable_to_array( $x_values ));

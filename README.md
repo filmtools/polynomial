@@ -32,7 +32,7 @@ public function findX( float $y ) : float;
 ```
 
 **PolynomialModelInterface** 
-extends *InterpolatorInterface,* *XFinderInterface*, and *CoefficientsProviderInterface*
+extends the above *InterpolatorInterface,* *XFinderInterface*, and *CoefficientsProviderInterface*
 
 **PolynomialModelProviderInterface** 
 returns a polynomial model interface instance.
@@ -60,7 +60,7 @@ $coefficients_iterable = [
 ];
 
 $interpolated = $fci( $coefficients_iterable ); 
-// \SplFixedArray [ 5, 8, 11 ]
+// SplFixedArray [ 5, 8, 11 ]
 
 ```
 
@@ -73,7 +73,8 @@ $coefficients = array(2,3);
 $x_values = array(1,2,3);
 
 // Now find Y for each X
-$interpolated = $fci( $coefficients, $x_values); // Array [ 5, 8, 11 ]
+$interpolated = $fci( $coefficients, $x_values); 
+// SplFixedArray [ 5, 8, 11 ]
 
 ```
 
@@ -85,15 +86,16 @@ use FilmTools\PolynomialModel\FromCoefficientsInterpolator;
 
 class MyModel implements CoefficientsProviderInterface
 {
-  public function getCoefficients(): array
+  public function getCoefficients(): \SplFixedArray
   {
-    return array(2,3);
+    return \SplFixedArray::fromArray(array(2,3));
   }
 }
 
 $x_values = array(1,2,3);
 $fci = new FromCoefficientsInterpolator( $x_values );
-$interpolated = $fci( new MyModel ); // Array [ 5, 8, 11 ]
+$interpolated = $fci( new MyModel ); 
+// SplFixedArray [ 5, 8, 11 ]
 ```
 
 
@@ -128,34 +130,31 @@ use FilmTools\PolynomialModel\CoefficientsProviderInterface;
 
 class MyModel implements CoefficientsProviderInterface
 {
-  public function getCoefficients(): array
+  public function getCoefficients(): \SplFixedArray
   {
     // Keys are exponents, values are factors!
-    return array(0=>16, 1=>30, 2=>5, 3=> 18 );
+    return \SplFixedArray::fromArray( [0=>16, 1=>30, 2=>5, 3=> 18 ]);
   }
 }
 $my_provider = new MyModel;
 
 $derivation_provider = new DerivativeCoefficientsProvider( $my_provider );
 $coefficients = $derivation_provider->getCoefficients();
-// array( 0 => 30, 1 => 10, 2 => 54)
+// SplFixedArray( 0 => 30, 1 => 10, 2 => 54)
 ```
 
-The class itself implements **CoefficientsProviderInterface**, and thus works excellent in conjunction with **MultipleInterpolator:**
+The class itself implements **CoefficientsProviderInterface**, and thus works excellent in conjunction with **MultipleInterpolator.** Here an example using the above *MyModel* class:
 
 ```php
 use FilmTools\PolynomialModel\DerivativeCoefficientsProvider;
 use FilmTools\PolynomialModel\MultipleInterpolator;
 
-$my_provider = new MyModel;
-// coefficients = array(0=>16, 1=>30, 2=>5, 3=> 18 );
-
-$derivated_coefficients = new DerivativeCoefficientsProvider( $my_provider );
-$mi = new MultipleInterpolator( $derivated_coefficients );
+$derivated_coefficients = new DerivativeCoefficientsProvider( new MyModel );
+$interpolator = new MultipleInterpolator( $derivated_coefficients );
 
 $x_values = array(1,2,3);
-$slopes = $mi->interpolate( $x_values );
-// 94, 266, 546
+$slopes = $interpolator->interpolate( $x_values );
+// SplFixedArray 94, 266, 546
 ```
 
 

@@ -3,7 +3,7 @@ namespace FilmTools\PolynomialModel;
 
 trait CoefficientsAssertionTrait
 {
-    protected function assertCoefficients( $coefficients ) : iterable
+    protected function assertCoefficients( $coefficients ) : \SplFixedArray
     {
         if ($coefficients instanceOf CoefficientsProviderInterface)
             return $coefficients->getCoefficients();
@@ -15,5 +15,5 @@ trait CoefficientsAssertionTrait
             return \SplFixedArray::fromArray( iterable_to_array($coefficients));
 
         throw new \InvalidArgumentException("Iterable or CoefficientsProviderInterface expected");
-    }   
+    }
 }
