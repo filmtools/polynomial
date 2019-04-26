@@ -15,6 +15,8 @@ class DerivativeCoefficientsProviderTest extends \PHPUnit\Framework\TestCase
      */
     public function testSimple( $c0, $expected_c1)
     {
+        $c0 = \SplFixedArray::fromArray( $c0 );
+        $expected_c1 = \SplFixedArray::fromArray( $expected_c1 );
 
         $pm = $this->prophesize( CoefficientsProviderInterface::class );
         $pm->getCoefficients()->willReturn($c0);

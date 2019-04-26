@@ -46,6 +46,9 @@ class MultipleInterpolator implements CoefficientsProviderInterface
         if ($coefficients instanceOf CoefficientsProviderInterface)
             return $coefficients->getCoefficients();
 
+        elseif ($coefficients instanceOf \SplFixedArray )
+            return $coefficients;
+
         elseif (is_iterable($coefficients))
             return \SplFixedArray::fromArray( iterable_to_array($coefficients));
 
