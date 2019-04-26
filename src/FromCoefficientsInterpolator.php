@@ -7,65 +7,51 @@ class FromCoefficientsInterpolator
 {
 
     /**
-     * @var array
+     * @var iterable
      */
     public $x_values;
 
 
     /**
-     * @param array|Traversable $x_values Default x values
+     * @param iterable $x_values Default x values
      */
-    public function __construct( $x_values = array())
+    public function __construct( iterable $x_values = array())
     {
-        $this->x_values = $this->assertArrayValues( $x_values );
+        $this->x_values = \SplFixedArray::fromArray(iterable_to_array( $x_values ));
     }
 
 
     /**
-     * @param  array|CoefficientsProviderInterface $coefficients
-     * @param  array|Traversable $x_values Default x values
+     * @param  iterable|CoefficientsProviderInterface $coefficients
+     * @param  iterable                               $x_values Default x values
      * @return array Interpolated values
      */
-    public function __invoke( $coefficients, $x_values = null )
+    public function __invoke( $coefficients, iterable $x_values = null ) : iterable
     {
-
         $coefficients = $this->assertCoefficients( $coefficients );
-        $x_values = $this->assertArrayValues( $x_values );
 
-        return array_map(function($x) use ($coefficients) {
-            return PolynomialRegression::interpolate( $coefficients, $x);
-        }, $x_values);
+        $x_values = is_null($x_values)
+        ? $this->x_values
+        : \SplFixedArray::fromArray(iterable_to_array( $x_values ));
+
+        $summands = array();
+        foreach($x_values as $x)
+            $summands[] = PolynomialRegression::interpolate( $coefficients, $x);
+
+        return $summands;
     }
 
 
-    protected function assertCoefficients( $coefficients ) : array
+    protected function assertCoefficients( $coefficients ) : iterable
     {
         if ($coefficients instanceOf CoefficientsProviderInterface)
-            $coefficients = $coefficients->getCoefficients();
-        elseif (!is_array($coefficients))
-            throw new \InvalidArgumentException("Array or CoefficientsProviderInterface expected");
+            return $coefficients->getCoefficients();
 
-        return $coefficients;
+        elseif (is_iterable($coefficients))
+            return \SplFixedArray::fromArray( iterable_to_array($coefficients));
+
+        throw new \InvalidArgumentException("Iterable or CoefficientsProviderInterface expected");
     }
 
-    /**
-     * @param  mixed $x_values
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    protected function assertArrayValues( $x_values ) : array
-    {
-        if (is_array($x_values))
-            return $x_values;
-
-        if ($x_values instanceOf \Traversable)
-            return iterator_to_array($x_values);
-
-        if (is_null($x_values))
-            return $this->x_values;
-
-        throw new \InvalidArgumentException("Array, Traversable, or NULL expected");
-
-    }
 
 }
