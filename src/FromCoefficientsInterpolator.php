@@ -34,11 +34,10 @@ class FromCoefficientsInterpolator
         ? $this->x_values
         : \SplFixedArray::fromArray(iterable_to_array( $x_values ));
 
-        $summands = array();
+        $results = array();
         foreach($x_values as $x)
-            $summands[] = PolynomialRegression::interpolate( $coefficients, $x);
-
-        return $summands;
+            $results[] = PolynomialRegression::interpolate( $coefficients, $x);
+        return $results;
     }
 
 

@@ -9,7 +9,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
 
 
     /**
-     * @param  array|CoefficientsProviderInterface $coefficients
+     * @param  iterable|CoefficientsProviderInterface $coefficients
      */
     public function __construct( $coefficients )
     {
@@ -19,7 +19,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
     /**
      * @param iterable $x_values Default x values
      */
-    public function __invoke( $x_values )
+    public function __invoke( iterable $x_values )
     {
         return $this->interpolate( $x_values );
     }
@@ -30,12 +30,11 @@ class MultipleInterpolator implements CoefficientsProviderInterface
      */
     public function interpolate( iterable $x_values ) : array
     {
-        $x_values = iterable_to_array( $x_values );
         $coefficients = $this->getCoefficients();
 
-        return array_map(function($x) use ($coefficients) {
+        return iterable_map($x_values, function($x) use ($coefficients) {
             return PolynomialRegression::interpolate( $coefficients, $x);
-        }, $x_values);
+        });
     }
 
 
