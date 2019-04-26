@@ -4,6 +4,9 @@ namespace FilmTools\PolynomialModel;
 class DerivativeCoefficientsProvider implements CoefficientsProviderInterface
 {
 
+    /**
+     * @var CoefficientsProviderInterface
+     */
     protected $coefficients_provider;
 
     public function __construct( CoefficientsProviderInterface $coefficients_provider )
@@ -16,7 +19,7 @@ class DerivativeCoefficientsProvider implements CoefficientsProviderInterface
      * Returns the coefficients for a derivation.
      * @inheritDoc
      */
-    public function getCoefficients() : iterable
+    public function getCoefficients() : \SplFixedArray
     {
         $coefficients = $this->coefficients_provider->getCoefficients();
         $coefficients = iterable_to_array( $coefficients );

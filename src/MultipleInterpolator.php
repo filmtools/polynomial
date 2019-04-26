@@ -17,6 +17,7 @@ class MultipleInterpolator implements CoefficientsProviderInterface
         $this->coefficients = $this->assertCoefficients( $coefficients );
     }
 
+
     /**
      * @param iterable $x_values Default x values
      */

@@ -7,8 +7,8 @@ interface CoefficientsProviderInterface
     /**
      * Returns the coefficients of the polynomial model.
      *
-     * @return iterable
+     * @return \SplFixedArray
      */
-    public function getCoefficients(): iterable;
+    public function getCoefficients(): \SplFixedArray;
 
 }

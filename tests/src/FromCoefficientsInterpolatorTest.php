@@ -15,7 +15,7 @@ class FromCoefficientsInterpolatorTest extends \PHPUnit\Framework\TestCase
         $sut = new FromCoefficientsInterpolator($values);
 
         $results = $sut( $coefficients );
-        $this->assertInternalType("array", $results);
+        $this->assertInstanceOf( \SplFixedArray::Class, $results ));
         $this->assertEquals($results, $expected_result);
     }
 
@@ -28,7 +28,8 @@ class FromCoefficientsInterpolatorTest extends \PHPUnit\Framework\TestCase
         $sut = new FromCoefficientsInterpolator;
 
         $results = $sut( $coefficients, $values );
-        $this->assertInternalType("array", $results);
+        $this->assertTrue( is_iterable( $results ));
+        $this->assertInstanceOf( \SplFixedArray::Class, $results ));
         $this->assertEquals($results, $expected_result);
     }
 
@@ -36,8 +37,8 @@ class FromCoefficientsInterpolatorTest extends \PHPUnit\Framework\TestCase
     public function provideCoefficients()
     {
         $values = array(1,2,3);
-        $coefficients = array(2, 3);
-        $results = [ 5, 8, 11 ];
+        $coefficients = \SplFixedArray::fromArray(array(2, 3));
+        $results = \SplFixedArray::fromArray([ 5, 8, 11 ]);
 
         $cp = $this->prophesize( CoefficientsProviderInterface::class );
         $cp->getCoefficients()->willReturn( $coefficients );

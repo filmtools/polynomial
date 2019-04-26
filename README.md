@@ -19,7 +19,7 @@ $ composer require filmtools/polynomial
 **CoefficientsProviderInterface:** 
 Returns the coefficients of the polynomial model.
 
-    public function getCoefficients(): iterable;
+    public function getCoefficients(): \SplFixedArray;
 **InterpolatorInterface:** 
 Find an y value for a given x coordinate.
 
@@ -43,21 +43,24 @@ returns a polynomial model interface instance.
 
 ### FromCoefficientsInterpolator
 
-This callable class interpolates a **default set of X values** using the **coefficients** given on invokation:
+This callable class interpolates a **iterable with X values** using the **coefficients** given on invokation:
 
 ```php
 <?php
 use FilmTools\PolynomialModel\FromCoefficientsInterpolator;
 
 // Use these X values every time:
-$x_values = array(1,2,3);
-$fci = new FromCoefficientsInterpolator( $x_values );
+$x_iterable = array(1,2,3);
+$fci = new FromCoefficientsInterpolator( $x_iterable );
 
 // Now find Y for each X
-$interpolated = $fci( [
+$coefficients_iterable = [
   0 => 2, 
   1 => 3
-]); // Array [ 5, 8, 11 ]
+];
+
+$interpolated = $fci( $coefficients_iterable ); 
+// \SplFixedArray [ 5, 8, 11 ]
 
 ```
 

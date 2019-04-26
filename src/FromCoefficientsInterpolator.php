@@ -25,9 +25,9 @@ class FromCoefficientsInterpolator
     /**
      * @param  iterable|CoefficientsProviderInterface $coefficients
      * @param  iterable                               $x_values Default x values
-     * @return array Interpolated values
+     * @return \SplFixedArray                         Interpolated values
      */
-    public function __invoke( $coefficients, iterable $x_values = null ) : iterable
+    public function __invoke( $coefficients, iterable $x_values = null ) : \SplFixedArray
     {
         $coefficients = $this->assertCoefficients( $coefficients );
 
@@ -38,7 +38,7 @@ class FromCoefficientsInterpolator
         $results = array();
         foreach($x_values as $x)
             $results[] = PolynomialRegression::interpolate( $coefficients, $x);
-        return $results;
+        return \SplFixedArray::fromArray($results);
     }
 
 
