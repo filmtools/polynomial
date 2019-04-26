@@ -28,7 +28,7 @@ class MultipleInterpolatorTest extends \PHPUnit\Framework\TestCase
         $sut = new MultipleInterpolator($coefficients);
 
         $result = $sut( $values );
-        $this->assertINstanceOf(\SplFixedArray::class, $result);
+        $this->assertInstanceOf(\SplFixedArray::class, $result);
         $this->assertEquals($result, $expected_result);
     }
 

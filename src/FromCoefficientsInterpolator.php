@@ -8,7 +8,7 @@ class FromCoefficientsInterpolator
     use CoefficientsAssertionTrait;
 
     /**
-     * @var iterable
+     * @var \SplFixedArray
      */
     public $x_values;
 
